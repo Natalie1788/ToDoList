@@ -92,6 +92,7 @@ function addTask(content: string) {
     tasks.push(newTask);
     renderTasks();
     updateLocalStorage();
+    console.log(uuidv4());
 }
 
 function toggleTaskCompletion(id: string) {
