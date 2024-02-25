@@ -19,7 +19,7 @@ const addTaskBtn = document.getElementById('add-btn') as HTMLButtonElement;
 const taskList = document.getElementById('todo-list') as HTMLUListElement;
 const clearBtn = document.getElementById('clear-btn') as HTMLButtonElement;
 
-function renderTasks() {
+function makeTasksList() {
     taskList.innerHTML = '';
     tasks.forEach(task => {
         const li = document.createElement('li');
@@ -66,7 +66,7 @@ function renderTasks() {
             const currentIndex = tasks.indexOf(task);
             tasks.splice(currentIndex, 1); // Remove the task from its current position
             tasks.unshift(task); // Add the task to the beginning of the array
-            renderTasks(); // Render tasks again to reflect changes
+            makeTasksList(); // Render tasks again to reflect changes
             updateLocalStorage();
         });
         li.appendChild(importanceBtn);
@@ -90,9 +90,9 @@ function addTask(content: string) {
         completed: false
     };
     tasks.push(newTask);
-    renderTasks();
+    makeTasksList();
     updateLocalStorage();
-    console.log(uuidv4());
+    console.log(uuidv4()); // shows tasks id in console
 }
 
 function toggleTaskCompletion(id: string) {
@@ -102,16 +102,16 @@ function toggleTaskCompletion(id: string) {
         }
         return task;
     });
-    renderTasks();
+    makeTasksList();
     updateLocalStorage();
 }
 
 function deleteTask(id: string) {
     tasks = tasks.filter(task => task.id !== id);
-    renderTasks();
+    makeTasksList();
     updateLocalStorage();
 }
-
+// save tasks to local storage
 function updateLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
@@ -126,8 +126,8 @@ addTaskBtn.addEventListener('click', () => {
 
 clearBtn.addEventListener('click', () => {
     tasks = [];
-    renderTasks();
+    makeTasksList();
     updateLocalStorage();
 });
 
-renderTasks();
+makeTasksList();
